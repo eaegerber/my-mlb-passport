@@ -10,7 +10,6 @@ from flask import (
 import json
 from backend.db_connection import db
 from backend.simple.playlist import sample_playlist_data
-from backend.ml_models import model01
 
 # This blueprint handles some basic routes that you can use for testing
 simple_routes = Blueprint("simple_routes", __name__)
@@ -70,29 +69,3 @@ def getData():
     response = make_response(jsonify(data))
     response.status_code = 200
     return response
-
-
-@simple_routes.route("/prediction/<var_01>/<var_02>", methods=["GET"])
-def get_prediction(var_01, var_02):
-    current_app.logger.info("GET /prediction handler")
-
-    try:
-        # Call prediction function from model01
-        prediction = model01.predict(var_01, var_02)
-        current_app.logger.info(f"prediction value returned is {prediction}")
-        
-        response_data = {
-            "prediction": prediction,
-            "input_variables": {"var01": var_01, "var02": var_02},
-        }
-
-        response = make_response(jsonify(response_data))
-        response.status_code = 200
-        return response
-
-    except Exception as e:
-        response = make_response(
-            jsonify({"error": "Error processing prediction request"})
-        )
-        response.status_code = 500
-        return response

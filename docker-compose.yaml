@@ -5,8 +5,11 @@ services:
     image: mysql:8.4
     container_name: mysql_db
     hostname: db
-    env_file:
-      - ./api/.env
+    environment:
+      MYSQL_DATABASE: mlb_passport
+      MYSQL_USER: mlb_user
+      MYSQL_PASSWORD: mlb_password
+      MYSQL_ROOT_PASSWORD: root_password
     volumes:
       - ./database-files:/docker-entrypoint-initdb.d/:ro
       - db_data:/var/lib/mysql
@@ -22,8 +25,12 @@ services:
     build: ./api
     container_name: web-api
     hostname: web-api
-    env_file:
-      - ./api/.env
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: mlb_passport
+      MYSQL_USER: mlb_user
+      MYSQL_PASSWORD: mlb_password
     volumes:
       - ./api:/apicode
     ports:
