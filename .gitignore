@@ -2,6 +2,7 @@
 secrets.toml
 __pycache__
 secrets/
+api/.env
 .env
 .env.local
 */logs/*
